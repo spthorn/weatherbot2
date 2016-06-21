@@ -10,7 +10,7 @@ app.set('port', (process.env.PORT || 9001)); // in production, use the [PORT] en
 
 // Just for grins, show text when visiting root of the app
 app.get('/', function(req, res){
-    res.send('It works!');
+    res.send('weatherbot2 v1.0.2');
 });
 
 // All Slack Slash commands send a POST

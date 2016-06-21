@@ -1,14 +1,10 @@
 var express = require('express');
 var app = express();
-var url = require('url');
 var request = require('request');
-var bodyParser = require('body-parser');
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
-app.set('port', (process.env.PORT || 9001)); // in production, use the [PORT] env variable
+app.set('port', (process.env.PORT || 9001)); // in production, can use the [PORT] env variable
 
-// Just for grins, show text when visiting root of the app
+// Show version when visiting the app URL
 app.get('/', function(req, res){
     res.send('weatherbot2 v1.0.2');
 });
@@ -16,9 +12,7 @@ app.get('/', function(req, res){
 // All Slack Slash commands send a POST
 app.post('/post', function(req, res){
     // Use the Node request(https://github.com/request/request) library
-    // to pass in a URL, pull out the first link from the JSON that is
-    // returned, and construct a proper response back to Slack.
-
+    // to pass in our monitor URL, and send it's response back to Slack.
     var monitorURL = "http://spthorn.com/slackMonitorQuery.php";
     request(monitorURL, function (error, response, body) {
 	      if (!error && response.statusCode == 200) {
@@ -31,7 +25,5 @@ app.post('/post', function(req, res){
     });
 });
 
-// Tell node which port to listen on
-app.listen(app.get('port'), function() {
-  console.log('Node app is running on port', app.get('port'));
-});
+// Have Express create a server and ask Node to listen on a specific port
+app.listen(app.get('port'));

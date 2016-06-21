@@ -10,36 +10,26 @@ app.set('port', (process.env.PORT || 9001)); // in production, use the [PORT] en
 
 // Just for grins, show text when visiting root of the app
 app.get('/', function(req, res){
-  res.send('It works!');
+    res.send('It works!');
 });
 
 // All Slack Slash commands send a POST
 app.post('/post', function(req, res){
-  // req.body.text is the slash command
+    // Use the Node request(https://github.com/request/request) library
+    // to pass in a URL, pull out the first link from the JSON that is
+    // returned, and construct a proper response back to Slack.
 
-  // var parsed_url = url.format({
-  //   pathname: 'https://api.genius.com/search',
-  //   query: {
-  //     access_token: process.env.GENIUS_ACCESS,
-  //     q: req.body.text
-  //   }
-  // });
-
-  var first_url = "Whatever.";
-
-  // request(parsed_url, function (error, response, body) {
-  //   if (!error && response.statusCode == 200) {
-  //     var data = JSON.parse(body);
-  //     var first_url = data.response.hits[0].result.url;
-
-       var body = {
-         response_type: "in_channel",
-         text: first_url
-       };
-
-       res.send(body);
-  //   }
-  // });
+    var monitorURL = "http://spthorn.com/slackMonitorQuery.php";
+    request(monitorURL, function (error, response, body) {
+	      if (!error && response.statusCode == 200) {
+            var data = JSON.parse(body);
+            var body = {
+                response_type: "in_channel",
+                text: data
+            };
+            res.send(body);
+    	  }
+    });
 });
 
 // Tell node which port to listen on

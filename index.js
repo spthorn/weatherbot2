@@ -7,15 +7,25 @@ app.set('port', (process.env.PORT || 9001)); // in production, can use the [PORT
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+var versionString = "weatherbot2 v1.1.1";
+
 // Show version when visiting the app URL
 app.get('/', function(req, res){
-    res.send('weatherbot2 v1.1.0');
+    res.send(versionString);
 });
 
 // All Slack Slash commands send a POST
 app.post('/post', function(req, res){
     var command = req.body.text;
-    if (command == "") {
+    
+    if (command == "help") {
+        var responseBody = {
+            response_type: "in_channel",
+            text: versionString + "\nEmpty command shows current office weather\n`zip` shows current weather at the specified zip code\n`city,state` shows current weather at the specified location"
+        };
+        res.send(responseBody);
+    }
+    else if (command == "") {
         // Use the Node request(https://github.com/request/request) library
         // to pass in our monitor URL, and send it's response back to Slack.
         var monitorURL = "http://spthorn.com/slackMonitorQuery.php";
@@ -36,7 +46,7 @@ app.post('/post', function(req, res){
         request(apiURL, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 var data = JSON.parse(body);
-                var text = data.name + "(" + data.sys.country + "): " + data.weather[0].main + " " + data.main.temp + "degF " + data.main.humidity + "% humidity";
+                var text = data.name + "(" + data.sys.country + "): " + data.weather[0].main + " " + data.main.temp + "° " + data.main.humidity + "% humidity";
 
                 var responseBody = {
                     response_type: "in_channel",
@@ -53,7 +63,7 @@ app.post('/post', function(req, res){
         request(apiURL, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 var data = JSON.parse(body);
-                var text = data.name + "(" + data.sys.country + "): " + data.weather[0].main + " " + data.main.temp + "degF " + data.main.humidity + "% humidity";
+                var text = data.name + "(" + data.sys.country + "): " + data.weather[0].main + " " + data.main.temp + "° " + data.main.humidity + "% humidity";
 
                 var responseBody = {
                     response_type: "in_channel",

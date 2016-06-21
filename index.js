@@ -7,7 +7,8 @@ app.set('port', (process.env.PORT || 9001)); // in production, can use the [PORT
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-var versionString = "weatherbot2 v1.1.2";
+var versionString = "weatherbot2 v1.1.3";
+var OWM_KEY = process.env.OWM_KEY;
 
 // Show version when visiting the app URL
 app.get('/', function(req, res){
@@ -34,7 +35,7 @@ app.post('/post', function(req, res){
     else if (/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(command) == true) {
         // Send the request to OpenWeatherMap as a zipcode parameter to their
         // current weather API, and return the result to Slack. 
-        var apiURL = "http://api.openweathermap.org/data/2.5/weather?zip=" + command + "&APPID=126dc125b131a57e314e3376242514a5&units=imperial";
+        var apiURL = "http://api.openweathermap.org/data/2.5/weather?zip=" + command + "&APPID=" + OWM_KEY + "&units=imperial";
         request(apiURL, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 var data = JSON.parse(body);
@@ -46,7 +47,7 @@ app.post('/post', function(req, res){
     else {
         // Send the request to OpenWeatherMap as a query parameter to their
         // current weather API, and return the result to Slack. 
-        var apiURL = "http://api.openweathermap.org/data/2.5/weather?q=" + command + "&APPID=126dc125b131a57e314e3376242514a5&units=imperial";
+        var apiURL = "http://api.openweathermap.org/data/2.5/weather?q=" + command + "&APPID=" + OWM_KEY + "&units=imperial";
         request(apiURL, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 var data = JSON.parse(body);

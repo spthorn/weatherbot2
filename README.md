@@ -30,12 +30,20 @@ Setup Slack slash command:
   * _Autocomplete help text_: Helps users when they start typing `/`
   * _Descriptive Label_: Provides extra context
 
+Setup (free) account at OpenWeatherMap
+
+* Goto `http://openweathermap.org` and sign up for a free account.
+* In your dashboard, retrieve your API key string
+* In Heroku, added it as a config variable called OWM_KEY in Settings
+
 
 ## Usage
 
 In Slack, send slash commands to /weatherbot:
 
     /weather
+    /weather help
+    /weather [zipcode] | [city[,state]]
 
 ## Props
 Thanks to Andrew Mager(https://mager.co/how-to-write-a-slackbot-in-40-lines-of-code-52cf0c4fcf42#.fsarcotkl)

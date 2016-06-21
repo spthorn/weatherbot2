@@ -22,12 +22,11 @@ app.post('/post', function(req, res){
     var monitorURL = "http://spthorn.com/slackMonitorQuery.php";
     request(monitorURL, function (error, response, body) {
 	      if (!error && response.statusCode == 200) {
-            var data = JSON.parse(body);
-            var body = {
+            var responseBody = {
                 response_type: "in_channel",
-                text: data
+                text: body
             };
-            res.send(body);
+            res.send(responseBody);
     	  }
     });
 });

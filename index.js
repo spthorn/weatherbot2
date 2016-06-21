@@ -6,7 +6,7 @@ app.set('port', (process.env.PORT || 9001)); // in production, can use the [PORT
 
 // Show version when visiting the app URL
 app.get('/', function(req, res){
-    res.send('weatherbot2 v1.0.2');
+    res.send('weatherbot2 v1.0.3');
 });
 
 // All Slack Slash commands send a POST
@@ -43,7 +43,7 @@ app.post('/post', function(req, res){
             }
         });
     }
-    */
+
 });
 
 // Have Express create a server and ask Node to listen on a specific port

@@ -4,10 +4,10 @@
   "description": "_A Slackbot that displays the current office weather_",
   "main": "index.js",
   "dependencies": {
-    "body-parser": "^1.14.2",
-    "ejs": "2.5.5",
-    "express": "4.13.3",
-    "request": "^2.67.0"
+    "body-parser": "1.19.0",
+    "ejs": "3.0.1",
+    "express": "4.17.1",
+    "request": "2.88.2"
   },
   "devDependencies": {},
   "scripts": {
